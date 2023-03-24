@@ -32,7 +32,18 @@
         android:id="@+id/navigation_search"
         android:name="com.goblin.qrhunter.ui.search.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_search_select_player"
+            app:destination="@id/otherProfileFragment" >
+            <argument
+                android:name="playerId"
+                app:argType="string"
+                android:defaultValue=""
+                />
+
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/leaderboardFragment"
         android:name="com.goblin.qrhunter.ui.leaderboard.LeaderboardFragment"
@@ -41,6 +52,9 @@
         <action
             android:id="@+id/action_leaderboardFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_leaderboardFragment_to_navigation_rankingListTotalscore"
+            app:destination="@id/rankingListTotalscoreFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
@@ -64,10 +78,61 @@
         android:id="@+id/profileFragment"
         android:name="com.goblin.qrhunter.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_user_profile" />
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_debugFragment"
+            app:destination="@id/debugFragment" />
+    </fragment>
 
     <action android:id="@+id/action_navigate_to_profile"
         app:destination="@id/profileFragment"
         android:menuCategory="secondary"/>
+
+    <fragment
+        android:id="@+id/rankingListTotalscoreFragment"
+        android:name="com.goblin.qrhunter.ui.leaderboard.RankinglistTotalscoreFragment"
+        android:label="fragment_rankinglistTotalscore"
+        tools:layout="@layout/fragment_rankbytotalscore" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/otherProfileFragment"
+        android:name="com.goblin.qrhunter.ui.profile.OtherProfileFragment"
+        android:label="fragment_other_profile"
+        tools:layout="@layout/fragment_other_profile">
+        <argument
+            android:name="playerId"
+            app:argType="string"
+            android:defaultValue=""
+            />
+
+    </fragment>
+    <fragment
+        android:id="@+id/debugFragment"
+        android:name="com.goblin.qrhunter.ui.debug.DebugFragment"
+        android:label="fragment_debug"
+        tools:layout="@layout/fragment_debug" >
+        <action
+            android:id="@+id/action_debugFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.goblin.qrhunter.ui.post.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" />
+    <action
+        android:id="@+id/action_global_postFragment"
+        app:destination="@id/postFragment" />
+    <fragment
+        android:id="@+id/alsoFragment"
+        android:name="com.goblin.qrhunter.ui.also.AlsoFragment"
+        android:label="fragment_also"
+        tools:layout="@layout/fragment_also" />
+
+    <action
+        android:id="@+id/action_global_alsoFragment"
+        app:destination="@id/alsoFragment" />
 
 </navigation>

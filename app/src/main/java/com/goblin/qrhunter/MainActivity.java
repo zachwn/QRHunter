@@ -10,6 +10,7 @@ package com.goblin.qrhunter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private PlayerRepository playerDB;
 
     FirebaseAuth auth;
-    private final String TAG = "main activity";
+    private final String TAG = "mainactivity";
     private String uid;
     FloatingActionButton button_camera;
 
@@ -78,27 +79,8 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
         playerDB = new PlayerRepository();
-        initCamera();
     }
 
-    /**
-     * Sets up the camera functionality for scanning QR codes.
-     */
-    private void initCamera() {
-        button_camera = findViewById(R.id.scan_button);
-        button_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent scanIntent = new Intent(MainActivity.this, ScanActivity.class);
-                button_camera.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(scanIntent);
-                    }
-                });
-            }
-        });
-    }
 
 
     /**
@@ -146,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in, if not goto welcome screen
         FirebaseUser currentUser = auth.getCurrentUser();
         Intent welcomeIntent = new Intent(MainActivity.this, WelcomeActivity.class);
-
-        if (currentUser == null) {
+        if (currentUser == null || currentUser.getUid().isEmpty()) {
+            Log.d(TAG, "onStart: no user");
             startActivity(welcomeIntent);
         }
 

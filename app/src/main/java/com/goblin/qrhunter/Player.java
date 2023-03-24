@@ -5,6 +5,7 @@ package com.goblin.qrhunter;
 
 import com.goblin.qrhunter.data.Entity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,12 +18,16 @@ import java.util.Map;
  * The class implements the Entity interface, which provides a toMap() method for converting
  * the object to a map of key-value pairs (for use with Firebase).
  */
-public class Player implements Entity {
+public class Player implements Entity, Serializable {
     private String id;
     private String username;
     private String contactInfo;
-    
+    private String phone;
+
     private String profileURI;
+
+
+    private int totalScore;
 
     /**
      * Constructs an empty player object.
@@ -44,17 +49,21 @@ public class Player implements Entity {
         setContactInfo(contactInfo);
     }
 
+
+
     /**
      * Constructs a new player object with the given ID, username, contact information, and profile picture URL.
      * @param id The ID of the player.
      * @param username The username of the player.
      * @param contactInfo The contact information of the player.
      * @param profilePicURL The profile picture URL of the player.
+     * @param phone Phone number of the player.
      */
-    public Player(String id, String username, String contactInfo, String profilePicURL) {
+    public Player(String id, String username, String contactInfo, String profilePicURL, String phone) {
         setId(id);
         setUsername(username);
         setContactInfo(contactInfo);
+        setPhone(phone);
         setProfileURI(profilePicURL);
     }
 
@@ -65,8 +74,10 @@ public class Player implements Entity {
     @Override
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("username", username);
-        result.put("contactInfo", contactInfo);
+        result.put("id", getId());
+        result.put("username", getUsername());
+        result.put("contactInfo", getContactInfo());
+        result.put("phone", getPhone());
         return result;
     }
 
@@ -112,12 +123,24 @@ public class Player implements Entity {
     }
 
     /**
-     * Sets the contact information of the player.
+     * Sets the contact information (email) of the player.
      * @param contactInfo The contact information to set for the player.
      */
     public void setContactInfo(String contactInfo) {
         this.contactInfo = contactInfo;
     }
+
+    /**
+     * Sets the phone number of player.
+     * @param phone
+     */
+    public void setPhone(String phone) {this.phone = phone;}
+
+    /**
+     * Gets the phone number of player.
+     * @return
+     */
+    public String getPhone() {return phone;}
 
     /**
      * Returns the profile picture URL of the player.
@@ -133,6 +156,36 @@ public class Player implements Entity {
      */
     public void setProfileURI(String profilePicURL) {
         this.profileURI = profilePicURL;
+    }
+    /**
+     * Returns the total score of the player.
+     * @return The total score of the player.
+     */
+    public int getTotalScore() {
+        return totalScore;
+    }
+    /**
+     * Adds points to the player's total score.
+     * @param points The points to add to the player's total score.
+     */
+    public void addPoints(int points) {
+        totalScore += points;
+    }
+
+    /**
+     * Creates a new Player object that is a copy of the given Player object.
+     *
+     * @param original the Player object to be copied
+     * @return a new Player object that has the same field values as the original object
+     */
+    static public Player copy(Player original) {
+        Player newPlayer = new Player();
+        newPlayer.setId(original.getId());
+        newPlayer.setUsername(original.getUsername());
+        newPlayer.setContactInfo(original.getContactInfo());
+        newPlayer.setPhone(original.getPhone());
+        newPlayer.setProfileURI(original.getProfileURI());
+        return newPlayer;
     }
 
 }
