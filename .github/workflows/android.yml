@@ -8,7 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v2
       - name: Cache firebase emulators
         uses: actions/cache@v2
@@ -32,6 +31,10 @@ jobs:
         run: echo MAPS_API_KEY=\"$maps_api_key\" >> ./local.properties
 
       - name: Build with Gradle
-        run: firebase emulators:exec "./gradlew build --stacktrace"
+        env:
+          maps_api_key: ${{secrets.MAPS_API_KEY}}
+        run: |
+          echo MAPS_API_KEY="$maps_api_key" >> ./local.properties
+          firebase emulators:exec "./gradlew build --stacktrace"
       - name: Run Unit Tests
         run: firebase emulators:exec "./gradlew test --stacktrace"
