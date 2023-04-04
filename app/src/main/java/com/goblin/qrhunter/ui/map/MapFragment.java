@@ -76,13 +76,18 @@ public class MapFragment extends Fragment /*implements OnMapReadyCallback*/ {
             }
             // Permission already granted, access the user's location
             fusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
-                if(task.getResult() == null) {
-                    fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null).addOnCompleteListener(task1 -> {
-                       handlePlot(googleMap, task1);
-                    });
-                } else {
-                    handlePlot(googleMap, task);
+                if(task.getResult() != null) {
+                    LatLng  loc = new LatLng(task.getResult().getLatitude(), task.getResult().getLongitude());
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 12.0f));
                 }
+                fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null).addOnCompleteListener(task1 ->{
+                    if(task1.getResult() != null) {
+                        handlePlot(googleMap, task1);
+                    } else if (task.getResult() != null) {
+                        handlePlot(googleMap, task);
+
+                    }
+                });
             });
 
         }
