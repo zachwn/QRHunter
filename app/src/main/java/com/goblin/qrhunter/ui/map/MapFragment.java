@@ -107,7 +107,7 @@ public class MapFragment extends Fragment /*implements OnMapReadyCallback*/ {
             loc = new LatLng(task.getResult().getLatitude(), task.getResult().getLongitude());
             title = "Me";
         }
-        googleMap.addMarker(new MarkerOptions().position(loc).title(title));
+//        googleMap.addMarker(new MarkerOptions().position(loc).title(title));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 12.0f));
 
         vModel.findNearby(loc.latitude, loc.longitude, 100000000)
